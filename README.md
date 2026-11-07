@@ -4,6 +4,11 @@
 
 ### Feats
 
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/f480676e-6ad9-4c9a-901e-85bc44d4dc9f" />
+
+
+
 *Produsen Roti*
 
 </div>
