@@ -310,6 +310,11 @@ Ini adalah Tampilan Utama yaitu Login yang dimana disini pengguna bisa memasukka
 
 Jika Pengguna salah memasukkan username ataupun password akan muncul peringatan salah saat input passwordnya.
 
+<img width="877" height="388" alt="image" src="https://github.com/user-attachments/assets/fc664fc1-4eb7-437b-9a36-451b650006c0" />
+
+Jika melakukan login menggunakan akun staff yang berstatus "Nonaktif", maka sistem akan menolak login tersebut.
+
+
 #### Tampilan Dashboard Admin
 
 <img width="1108" height="586" alt="image" src="https://github.com/user-attachments/assets/412ea4de-2d25-46de-a79a-58292645b65c" />
