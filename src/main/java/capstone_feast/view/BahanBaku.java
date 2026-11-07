@@ -145,7 +145,7 @@ public class BahanBaku extends javax.swing.JFrame {
         btnLogout.addActionListener(this::btnLogoutActionPerformed);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Capstone-Part-2\\src\\main\\resources\\images\\10.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/10.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -332,7 +332,7 @@ public class BahanBaku extends javax.swing.JFrame {
         );
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Documents\\SEMESTER 3\\CAPSTONE\\Capstone-Part-2\\src\\main\\resources\\images\\3.png")); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/3.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);

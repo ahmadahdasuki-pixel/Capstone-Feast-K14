@@ -112,7 +112,7 @@ public class Distribusi extends javax.swing.JFrame {
         btnLogout.addActionListener(this::btnLogoutActionPerformed);
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Capstone-Part-2\\src\\main\\resources\\images\\10.png")); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/10.png"))); // NOI18N
 
         btnPemantauan.setBackground(new java.awt.Color(153, 51, 0));
         btnPemantauan.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 18)); // NOI18N
@@ -371,7 +371,7 @@ public class Distribusi extends javax.swing.JFrame {
         jPanel3.add(LihatStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 180, 30));
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Documents\\SEMESTER 3\\CAPSTONE\\Capstone-Part-2\\src\\main\\resources\\images\\7.png")); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/7.png"))); // NOI18N
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 400, 240));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 820, 610));

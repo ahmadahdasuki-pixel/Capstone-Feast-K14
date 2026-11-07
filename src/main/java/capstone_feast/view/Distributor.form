@@ -214,7 +214,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Ahmad Ahdasuki\Capstone-Part-2\src\main\resources\images\10.png"/>
+              <Image iconType="3" name="/images/10.png"/>
             </Property>
           </Properties>
         </Component>
@@ -543,7 +543,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Ahmad Ahdasuki\Documents\SEMESTER 3\CAPSTONE\Capstone-Part-2\src\main\resources\images\5.png"/>
+              <Image iconType="3" name="/images/5.png"/>
             </Property>
           </Properties>
         </Component>

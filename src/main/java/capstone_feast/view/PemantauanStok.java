@@ -125,7 +125,7 @@ public class PemantauanStok extends javax.swing.JFrame {
         Logout.addActionListener(this::LogoutActionPerformed);
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Capstone-Part-2\\src\\main\\resources\\images\\10.png")); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/10.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
