@@ -21,7 +21,6 @@ public class Distribusi extends javax.swing.JFrame {
 
     public Distribusi() {
         initComponents();
-        // Menghubungkan JFrame dengan Controller Distribusi
         setLocationRelativeTo(null);
         this.controller = new DistribusiController(this);
     }
@@ -79,7 +78,6 @@ public class Distribusi extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TabelRiwayat = new javax.swing.JTable();
         LihatStatus = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -114,7 +112,7 @@ public class Distribusi extends javax.swing.JFrame {
         btnLogout.addActionListener(this::btnLogoutActionPerformed);
 
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Documents\\SEMESTER 3\\CAPSTONE\\Capstone-Part-2\\src\\main\\resources\\images\\Feast.png")); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Documents\\SEMESTER 3\\CAPSTONE\\Capstone-Part-2\\src\\main\\resources\\images\\11.png")); // NOI18N
 
         btnPemantauan.setBackground(new java.awt.Color(153, 51, 0));
         btnPemantauan.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 18)); // NOI18N
@@ -166,14 +164,14 @@ public class Distribusi extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Kelola Distribusi");
+        jLabel14.setText("KELOLA PROSES DISTRIBUSI");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(393, Short.MAX_VALUE)
+                .addContainerGap(213, Short.MAX_VALUE)
                 .addComponent(jLabel14)
                 .addGap(256, 256, 256))
         );
@@ -372,10 +370,6 @@ public class Distribusi extends javax.swing.JFrame {
         LihatStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.add(LihatStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 270, 180, 30));
 
-        jLabel6.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
-        jLabel6.setText("Lihat Status Distribusi");
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 280, -1, -1));
-
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Documents\\SEMESTER 3\\CAPSTONE\\Capstone-Part-2\\src\\main\\resources\\images\\7.png")); // NOI18N
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 400, 240));
@@ -459,7 +453,6 @@ public class Distribusi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

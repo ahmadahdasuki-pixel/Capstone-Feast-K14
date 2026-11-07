@@ -14,6 +14,6 @@ public class ComboItem {
 
     @Override
     public String toString() {
-        return value; // Ini yang akan tampil di ComboBox
+        return value; 
     }
 }

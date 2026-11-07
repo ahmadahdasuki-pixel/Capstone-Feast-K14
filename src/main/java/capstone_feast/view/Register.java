@@ -17,8 +17,8 @@ public class Register extends javax.swing.JFrame {
      */
     public Register() {
         initComponents();
-        new capstone_feast.controller.RegisterController(this); // Menghubungkan View dengan Controller
-        setLocationRelativeTo(null);
+        new capstone_feast.controller.RegisterController(this); 
+        setAlwaysOnTop(true);
     }
     
 public javax.swing.JTextField getTxtNama() {
@@ -26,23 +26,23 @@ public javax.swing.JTextField getTxtNama() {
 }
 
 public javax.swing.JTextField getTxtUsername() {
-    return UsernameBaru; // Sesuaikan dengan nama variabel TextField Username Baru
+    return UsernameBaru; 
 }
 
 public javax.swing.JTextField getTxtTelepon() {
-    return NoTelepon; // Sesuaikan dengan nama variabel TextField No Telepon
+    return NoTelepon; 
 }
 
 public javax.swing.JPasswordField getTxtPassword() {
-    return PasswordBaru; // Sesuaikan dengan nama variabel Password Field
+    return PasswordBaru; 
 }
 
 public javax.swing.JCheckBox getCheckLihatPassword() {
-    return LihatPassword; // Sesuaikan dengan nama variabel Checkbox Lihat Password
+    return LihatPassword; 
 }
 
 public javax.swing.JButton getBtnTambahkanAkun() {
-    return TambahkanAkun; // Sesuaikan dengan nama variabel Tombol Tambahkan Akun
+    return TambahkanAkun; 
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -218,7 +218,7 @@ public javax.swing.JButton getBtnTambahkanAkun() {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     /**
      * @param args the command line arguments
      */
@@ -241,7 +241,7 @@ public javax.swing.JButton getBtnTambahkanAkun() {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Register().setVisible(true));
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -26,12 +26,10 @@ public class LoginDao {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    // Mengambil kolom pertama (indeks 1) sebagai ID untuk menghindari error nama kolom
                     int id = resultSet.getInt(1); 
                     String namaPengguna = resultSet.getString("nama_pengguna");
                     String dbUsername = resultSet.getString("username");
 
-                    // Polimorfisme: Instansiasi Admin atau Staff berdasarkan username
                     if (dbUsername.toLowerCase().contains("admin")) {
                         pengguna = new Admin(id, namaPengguna, dbUsername, "aktif", null, null);
                     } else {

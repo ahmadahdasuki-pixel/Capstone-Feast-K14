@@ -86,7 +86,6 @@ public class RegisterController {
         if (sukses) {
             JOptionPane.showMessageDialog(frame, "Akun baru berhasil ditambahkan oleh Admin!");
           
-            new capstone_feast.view.KelolaAkunStaff().setVisible(true); 
             frame.dispose(); 
         } else {
             JOptionPane.showMessageDialog(

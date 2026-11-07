@@ -33,7 +33,6 @@ public class DashboardStaffController {
     }
 
     private void initController() {
-        
         if (frame.getBtnLogout() != null) {
             frame.getBtnLogout().addActionListener(e -> {
                 int confirm = JOptionPane.showConfirmDialog(frame, "Yakin Ingin Keluar?", "Konfirmasi Logout", JOptionPane.YES_NO_OPTION);
@@ -44,7 +43,6 @@ public class DashboardStaffController {
             });
         }
 
-        
         JComboBox cmbFilter = frame.getCmbStatus(); 
         if (cmbFilter != null) {
             cmbFilter.addActionListener(e -> {
@@ -64,6 +62,7 @@ public class DashboardStaffController {
             cmbFilter.addItem("Selesai");
             cmbFilter.addItem("Di Proses");
             cmbFilter.addItem("Gagal");
+            cmbFilter.addItem("Dibuang"); 
         }
     }
 
@@ -72,7 +71,6 @@ public class DashboardStaffController {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
-        // Memanggil method DAO FEFO yang menyortir berdasarkan tanggal kadaluarsa terdekat ASC
         List<ProduksiModel> list = produksiDao.getDataByStatusSortedByFEFO(status);
 
         for (ProduksiModel p : list) {
@@ -87,7 +85,6 @@ public class DashboardStaffController {
     }
 
     public void loadDashboardData() {
-        // Mengatur teks selamat datang secara dinamis berdasarkan nama yang login
         String namaLogin = UserSession.getNamaUser();
         if (namaLogin == null || namaLogin.isEmpty()) {
             namaLogin = "Staff";
@@ -123,11 +120,11 @@ public class DashboardStaffController {
                 if (column == 4 && value != null) {
                     String status = value.toString().toLowerCase();
                     if (status.contains("selesai") || status.contains("aktif")) {
-                        c.setForeground(new Color(0, 150, 0)); // Hijau
-                    } else if (status.contains("habis") || status.contains("gagal")) {
-                        c.setForeground(new Color(200, 0, 0)); // Merah
+                        c.setForeground(new Color(0, 150, 0)); 
+                    } else if (status.contains("habis") || status.contains("gagal") || status.contains("dibuang")) {
+                        c.setForeground(new Color(200, 0, 0)); 
                     } else {
-                        c.setForeground(new Color(200, 150, 0)); // Kuning / Oranye
+                        c.setForeground(new Color(200, 150, 0)); 
                     }
                 } else if (!isSelected) {
                     c.setForeground(Color.BLACK);

@@ -10,10 +10,7 @@ public abstract class Pengguna {
     private String nomorTelepon;
 
     // Constructor
-    public Pengguna(int id, String namaPengguna,
-                    String username, String statusAkun,
-                    String nomorTelepon) {
-
+    public Pengguna(int id, String namaPengguna, String username, String statusAkun, String nomorTelepon) {
         this.id = id;
         this.namaPengguna = namaPengguna;
         this.username = username;
@@ -62,6 +59,5 @@ public abstract class Pengguna {
         this.nomorTelepon = nomorTelepon;
     }
 
-    // Method abstrak
     public abstract String getRole();
 }

@@ -28,7 +28,6 @@ public class ResepController {
             frame.getCbProduk().removeAllItems();
             List<Produk> listProduk = dao.getAllProdukForCombo();
             for (Produk p : listProduk) {
-                // Memasukkan objek Produk ke dalam ComboBox
                 frame.getCbProduk().addItem(p);
             }
         }
@@ -47,7 +46,6 @@ public class ResepController {
             frame.getBtnHapus().addActionListener(e -> hapusResep());
         }
 
-        // Listener saat ComboBox produk diubah, maka tabel resep ikut memfilter
         if (frame.getCbProduk() != null) {
             frame.getCbProduk().addActionListener(e -> loadTableResepBySelectedProduk());
         }
@@ -62,16 +60,12 @@ public class ResepController {
                 );
                 
                 if (confirm == JOptionPane.YES_OPTION) {
-                    // 1. Membuka kembali halaman Login
                     new Login().setVisible(true);
-                    
-                    // 2. Menutup form / jendela menu yang sedang aktif
                     frame.dispose();
                 }
             });
         }
 
-        // Event klik baris pada tabel resep
         if (frame.getTabelResep() != null) {
             frame.getTabelResep().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -103,8 +97,8 @@ public class ResepController {
                     dr.getIdDetailResep(),
                     dr.getIdBahan(),
                     dr.getNamaBahan(),
-                    dr.getJumlahBahan(), // Urutan kolom sesuai GUI Anda: [3] Jumlah Bahan
-                    dr.getSatuan()       // Urutan kolom sesuai GUI Anda: [4] Satuan
+                    dr.getJumlahBahan(),
+                    dr.getSatuan()   
                 });
             }
         }
@@ -118,7 +112,6 @@ public class ResepController {
         }
         Produk selectedProduk = (Produk) selectedObj;
 
-        // Ambil daftar bahan baku untuk ditampilkan di ComboBox dialog
         List<ResepDao.BahanItem> listBahan = dao.getListBahanItem(); 
         if (listBahan == null || listBahan.isEmpty()) {
             JOptionPane.showMessageDialog(frame, "Data bahan baku kosong!", "Peringatan", JOptionPane.WARNING_MESSAGE);
@@ -150,7 +143,6 @@ public class ResepController {
 
                 ResepDao.BahanItem selectedBahan = (ResepDao.BahanItem) cmbBahanDialog.getSelectedItem();
                 
-                // Simpan ke database via DAO (Pastikan method insertDetailResep sudah ada di ResepDao Anda)
                 boolean sukses = dao.insertDetailResep(selectedProduk.getIdProduk(), selectedBahan.getIdBahan(), jumlah);
                 
                 if (sukses) {
@@ -187,7 +179,6 @@ public class ResepController {
                     return;
                 }
 
-                // Update takaran ke database via DAO (Pastikan method updateTakaranResep sudah ada di ResepDao Anda)
                 boolean sukses = dao.updateTakaranResep(selectedIdDetailResep, jumlahBaru);
                 
                 if (sukses) {

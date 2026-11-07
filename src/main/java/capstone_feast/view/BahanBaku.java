@@ -18,10 +18,9 @@ public class BahanBaku extends javax.swing.JFrame {
     public BahanBaku() {
         initComponents();
         new capstone_feast.controller.BahanBakuController(this);
-        setLocationRelativeTo(null); // Menempatkan posisi form di tengah layar
+        setLocationRelativeTo(null); 
     }
     
-    // Getter wajib untuk diakses oleh BahanBakuController
     public javax.swing.JTextField getNamaBahanField() {
         return NamaBahan;
     }
@@ -356,8 +355,8 @@ public class BahanBaku extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, 670, 530));

@@ -10,7 +10,7 @@ import java.util.List;
 public class ProdukController {
     private capstone_feast.view.Produk frame;
     private ProdukDao dao;
-    private int selectedIdProduk = -1; // Menampung ID produk yang diklik pada tabel
+    private int selectedIdProduk = -1; 
 
     public ProdukController(capstone_feast.view.Produk frame) {
         this.frame = frame;
@@ -43,15 +43,11 @@ public class ProdukController {
         );
         
         if (confirm == JOptionPane.YES_OPTION) {
-            // 1. Membuka kembali halaman Login
             new Login().setVisible(true);
-            
-            // 2. Menutup form / jendela menu yang sedang aktif
             frame.dispose();
         }
     });
 }
-        // Event klik baris pada tabel agar data otomatis tampil di form (Auto-Fill)
         if (frame.getTabelProduk() != null) {
             frame.getTabelProduk().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -75,7 +71,7 @@ public class ProdukController {
     public void loadTable() {
         List<Produk> list = dao.getAllProduk();
         DefaultTableModel model = (DefaultTableModel) frame.getTabelProduk().getModel();
-        model.setRowCount(0); // Kosongkan tabel sebelum isi ulang
+        model.setRowCount(0);
 
         for (Produk p : list) {
             model.addRow(new Object[]{
@@ -107,7 +103,6 @@ public class ProdukController {
         return true;
     }
 
-    // Logika Tambah Produk dengan pencegahan duplikasi data (Redundansi)
     private void tambahProduk() {
         String nama = frame.getNamaProdukField().getText().trim();
         String satuan = frame.getSatuanField().getText().trim();
@@ -136,7 +131,6 @@ public class ProdukController {
             return;
         }
 
-        // Jika belum ada, lakukan insert baru (id_admin = 1, status = 'Aktif')
         Produk baru = new Produk(0, 1, nama, satuan, harga, "Aktif");
         if (dao.insert(baru)) {
             JOptionPane.showMessageDialog(frame, "Produk baru berhasil ditambahkan!");
@@ -156,10 +150,9 @@ public class ProdukController {
 
         int selectedRow = frame.getTabelProduk().getSelectedRow();
         if (selectedRow != -1) {
-            Object statusObj = frame.getTabelProduk().getValueAt(selectedRow, 4); // Kolom status ada di indeks ke-4
+            Object statusObj = frame.getTabelProduk().getValueAt(selectedRow, 4); 
             String statusProduk = statusObj != null ? statusObj.toString() : "";
             
-            // Jika produk berstatus Nonaktif, tawarkan opsi untuk mengaktifkannya kembali
             if (statusProduk.equalsIgnoreCase("Nonaktif") || statusProduk.equalsIgnoreCase("tidak aktif")) {
                 int confirmAktif = JOptionPane.showConfirmDialog(
                     frame, 

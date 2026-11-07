@@ -9,6 +9,7 @@ public class DetailDistribusiBatch {
         this.jumlahDiambil = jumlahDiambil;
     }
 
+    // Getter dan Setter
     public String getIdDetailDistribusi() { return idDetailDistribusi; }
     public void setIdDetailDistribusi(String idDetailDistribusi) { this.idDetailDistribusi = idDetailDistribusi; }
 

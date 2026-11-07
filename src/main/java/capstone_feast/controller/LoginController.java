@@ -39,23 +39,18 @@ public class LoginController {
             return;
         }
 
-        // Validasi ke database melalui DAO
         Pengguna user = loginDao.login(username, password);
 
         if (user != null) {
             String role = user.getRole(); 
             
-            // Simpan data nama dan role ke UserSession
             String namaUser = user.getNamaPengguna(); 
             UserSession.setNamaUser(namaUser);
             UserSession.setRole(role);
 
             JOptionPane.showMessageDialog(frame, "Login Berhasil sebagai " + role + "!");
-
-            // 1. Tutup jendela login sekali saja di sini agar tidak menumpuk
             frame.dispose();
 
-            // 2. Buka halaman dashboard berdasarkan role masing-masing
             if ("Admin".equalsIgnoreCase(role)) {
                 new DashboardAdmin().setVisible(true); 
             } else if ("Staff".equalsIgnoreCase(role)) {

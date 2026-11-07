@@ -4,7 +4,9 @@ import capstone_feast.dao.BahanBakuDao;
 import capstone_feast.model.BahanBaku; 
 import capstone_feast.view.Login;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.List;
 
 public class BahanBakuController {
@@ -48,7 +50,6 @@ public class BahanBakuController {
             });
         }
 
-        // Event klik baris pada jTable1 agar data otomatis tampil di form
         if (frame.getTabelBahan() != null) {
             frame.getTabelBahan().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -85,9 +86,52 @@ public class BahanBakuController {
                 b.getStatusBahanBaku()
             });
         }
+        
+        aturWarnaTabelBahanBaku();
     }
 
-    // Validasi input angka untuk Stok Saat Ini dan Stok Minimum
+    private void aturWarnaTabelBahanBaku() {
+        JTable table = frame.getTabelBahan();
+        if (table == null) return;
+
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, 
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                
+                try {
+                    Object valStokAktif = table.getValueAt(row, 3);
+                    Object valStokMin = table.getValueAt(row, 4);
+                    
+                    if (valStokAktif != null && valStokMin != null) {
+                        double stokAktif = Double.parseDouble(valStokAktif.toString());
+                        double stokMin = Double.parseDouble(valStokMin.toString());
+                        
+                        if (isSelected) {
+                            c.setBackground(table.getSelectionBackground());
+                            c.setForeground(table.getSelectionForeground());
+                        } else {
+                            if (stokAktif <= stokMin) {
+                                c.setBackground(new Color(255, 204, 204)); // Merah muda
+                                c.setForeground(new Color(153, 0, 0));       //Teks merah gelap
+                            } else {
+                                c.setBackground(Color.WHITE);
+                                c.setForeground(Color.BLACK);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    c.setBackground(Color.WHITE);
+                    c.setForeground(Color.BLACK);
+                }
+                
+                return c;
+            }
+        });
+    }
+
     private boolean validasiInputAngka(String stokStr, String minStr) {
         try {
             double stok = Double.parseDouble(stokStr);
@@ -103,7 +147,6 @@ public class BahanBakuController {
         return true;
     }
 
-    // Logika Tambah Bahan & Pencegahan Duplikasi (Tambah Stok Otomatis jika nama sama)
     private void tambahAtauUpdateStokBahan() {
         String nama = frame.getNamaBahanField().getText().trim();
         String satuan = frame.getSatuanField().getText().trim();
@@ -122,10 +165,8 @@ public class BahanBakuController {
         double stokBaru = Double.parseDouble(stokStr);
         double stokMin = Double.parseDouble(minStr);
 
-        // Cek apakah nama bahan sudah ada di database
         BahanBaku existing = dao.getBahanBakuByNama(nama);
         if (existing != null) {
-            // Validasi: Jika bahan yang ditemukan sudah berstatus Nonaktif, tolak penambahan stok
             String statusBahan = existing.getStatusBahanBaku() != null ? existing.getStatusBahanBaku() : "";
             if (statusBahan.equalsIgnoreCase("Nonaktif")) {
                 JOptionPane.showMessageDialog(
@@ -155,7 +196,6 @@ public class BahanBakuController {
                 }
             }
         } else {
-            // Jika belum ada, lakukan insert baru
             boolean sukses = dao.insertBahanBaku(nama, satuan, stokBaru, stokMin);
             if (sukses) {
                 JOptionPane.showMessageDialog(frame, "Bahan baku baru berhasil ditambahkan!");
@@ -167,7 +207,6 @@ public class BahanBakuController {
         }
     }
 
-    // Proses Ubah Bahan / Mengaktifkan Kembali Bahan
     private void prosesUbahBahan() {
         if (selectedIdBahan == -1) {
             JOptionPane.showMessageDialog(frame, "Silakan pilih salah satu baris bahan pada tabel terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE);
@@ -179,7 +218,6 @@ public class BahanBakuController {
             Object statusObj = frame.getTabelBahan().getValueAt(selectedRow, 5);
             String statusBahan = statusObj != null ? statusObj.toString() : "";
             
-            // Jika bahan berstatus Nonaktif, berikan opsi untuk mengaktifkannya kembali
             if (statusBahan.equalsIgnoreCase("Nonaktif")) {
                 int confirmAktif = JOptionPane.showConfirmDialog(
                     frame, 
@@ -202,7 +240,6 @@ public class BahanBakuController {
             }
         }
 
-        // Proses ubah normal jika statusnya Aktif
         String nama = frame.getNamaBahanField().getText().trim();
         String satuan = frame.getSatuanField().getText().trim();
         String stokStr = frame.getStokSaatIniField().getText().trim();
@@ -230,7 +267,6 @@ public class BahanBakuController {
         }
     }
 
-    // Proses Nonaktifkan Bahan (Hapus Bahan)
     private void prosesNonaktifkanBahan() {
         if (selectedIdBahan == -1) {
             JOptionPane.showMessageDialog(frame, "Silakan pilih salah satu baris bahan pada tabel yang ingin dinonaktifkan!", "Peringatan", JOptionPane.WARNING_MESSAGE);
@@ -249,7 +285,7 @@ public class BahanBakuController {
             }
         }
     }
-
+    
     private void resetForm() {
         frame.getNamaBahanField().setText("");
         frame.getSatuanField().setText("");

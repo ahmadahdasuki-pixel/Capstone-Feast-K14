@@ -8,11 +8,9 @@ public class Produk {
     private double hargaJual;
     private String statusProduk;
 
-    // 1. TAMBAHKAN KONSTRUKTOR KOSONG INI (Wajib agar new Produk() tidak error)
     public Produk() {
     }
 
-    // 2. Konstruktor dengan parameter (jika sudah ada sebelumnya, biarkan saja)
     public Produk(int idProduk, int idAdmin, String namaProduk, String satuanProduk, double hargaJual, String statusProduk) {
         this.idProduk = idProduk;
         this.idAdmin = idAdmin;
@@ -43,6 +41,6 @@ public class Produk {
 
     @Override
     public String toString() {
-        return namaProduk; // Menampilkan nama produk pada ComboBox
+        return namaProduk;
     }
 }

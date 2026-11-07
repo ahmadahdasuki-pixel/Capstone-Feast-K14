@@ -1,5 +1,6 @@
 package capstone_feast.controller;
 
+import capstone_feast.config.UserSession; 
 import capstone_feast.dao.DashboardAdminDao;
 import capstone_feast.view.*;
 import javax.swing.*;
@@ -7,6 +8,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 
 public class DashboardAdminController {
     private DashboardAdmin frame;
@@ -23,7 +25,6 @@ public class DashboardAdminController {
         // 1. Tombol Menu Dashboard
         if (frame.getBtnDashboard() != null) {
             frame.getBtnDashboard().addActionListener(e -> {
-                // Sudah berada di halaman DashboardAdmin
             });
         }
 
@@ -88,36 +89,31 @@ public class DashboardAdminController {
     private void loadDashboardData() {
         try {
             if (frame != null) {
-                // 1. Isi pilihan ComboBox status batch
+                String namaAdmin = UserSession.getNamaUser();
+                if (namaAdmin != null && !namaAdmin.isEmpty()) {
+                    if (frame.getLblSelamatDatang() != null) {
+                        frame.getLblSelamatDatang().setText("Selamat Datang, " + namaAdmin);
+                    }
+                }
+
+                loadCardStatistikRealTime();
+
                 frame.isiPilihanStatus();
                 
-                // 2. Pasang Event Listener berbasis Index (Anti-Mismatch String!)
                 if (frame.getCmbStatus() != null) {
                     for (java.awt.event.ActionListener al : frame.getCmbStatus().getActionListeners()) {
                         frame.getCmbStatus().removeActionListener(al);
                     }
                     
                     frame.getCmbStatus().addActionListener(e -> {
-                        int selectedIndex = frame.getCmbStatus().getSelectedIndex();
-                        String filterKategori = "Semua";
-                        
-                        // Petakan berdasarkan urutan item di ComboBox
-                        if (selectedIndex == 1) {
-                            filterKategori = "Selesai";
-                        } else if (selectedIndex == 2) {
-                            filterKategori = "Gagal";
-                        } else if (selectedIndex == 3) {
-                            filterKategori = "Di Proses";
+                        String selectedStatus = (String) frame.getCmbStatus().getSelectedItem();
+                        if (selectedStatus != null) {
+                            loadTabelBatch(selectedStatus);
                         }
-                        
-                        loadTabelBatch(filterKategori);
                     });
                 }
 
-                // 3. Muat data tabel pertama kali
                 loadTabelBatch("Semua");
-                
-                // 4. Terapkan pewarnaan status pada tabel
                 aturWarnaTabelStatus();
             }
         } catch (Exception e) {
@@ -125,9 +121,48 @@ public class DashboardAdminController {
         }
     }
 
+    private void loadCardStatistikRealTime() {
+        Map<String, Integer> bahanBaku = dao.getStatistikBahanBaku();
+        Map<String, Integer> produk = dao.getStatistikProduk();
+        Map<String, Integer> batch = dao.getStatistikBatch();
+        Map<String, Integer> distribusi = dao.getStatistikDistribusi();
+
+        // 1. Total Bahan Baku & Keterangannya
+        if (frame.getLblTotalBahanBaku() != null) {
+            frame.getLblTotalBahanBaku().setText(String.valueOf(bahanBaku.get("total")));
+        }
+        if (frame.getLblInfoBahanGabung() != null) {
+            frame.getLblInfoBahanGabung().setText(bahanBaku.get("tersedia") + " Tersedia | " + bahanBaku.get("minimum") + " Minimum | " + bahanBaku.get("nonaktif") + " Nonaktif");
+        }
+
+        // 2. Total Produk & Keterangannya
+        if (frame.getLblTotalProduk() != null) {
+            frame.getLblTotalProduk().setText(String.valueOf(produk.get("total")));
+        }
+        if (frame.getLblInfoProdukGabung() != null) {
+            frame.getLblInfoProdukGabung().setText(produk.get("aktif") + " Aktif | " + produk.get("nonaktif") + " Nonaktif");
+        }
+
+        // 3. Total Produksi Batch & Keterangannya
+        if (frame.getLblTotalBatch() != null) {
+            frame.getLblTotalBatch().setText(String.valueOf(batch.get("total")));
+        }
+        if (frame.getLblInfoBatchGabung() != null) {
+            frame.getLblInfoBatchGabung().setText(batch.get("selesai") + " Selesai | " + batch.get("gagal") + " Gagal");
+        }
+
+        // 4. Total Distribusi & Keterangannya
+        if (frame.getLblTotalDistribusi() != null) {
+            frame.getLblTotalDistribusi().setText(String.valueOf(distribusi.get("total")));
+        }
+        if (frame.getLblInfoDistribusiGabung() != null) {
+            frame.getLblInfoDistribusiGabung().setText(distribusi.get("selesai") + " Selesai | " + distribusi.get("proses") + " Diproses");
+        }
+    }
+
     public void loadTabelBatch(String statusFilter) {
         DefaultTableModel model = (DefaultTableModel) frame.getTabelBatchTerbaru().getModel();
-        model.setRowCount(0); // Kosongkan baris agar tidak duplikat
+        model.setRowCount(0); 
 
         List<Object[]> dataBatch = dao.getBatchTerbaru();
 
@@ -143,10 +178,13 @@ public class DashboardAdminController {
             else if (filter.equalsIgnoreCase("Selesai") && statusBatch.equalsIgnoreCase("Selesai")) {
                 isMatch = true;
             } 
-            else if (filter.equalsIgnoreCase("Gagal") && (statusBatch.equalsIgnoreCase("Gagal") || statusBatch.equalsIgnoreCase("Dibuang") || statusBatch.equalsIgnoreCase("Habis"))) {
+            else if (filter.equalsIgnoreCase("Di Proses") && (statusBatch.equalsIgnoreCase("Di Proses") || statusBatch.equalsIgnoreCase("Diproses"))) {
                 isMatch = true;
             } 
-            else if (filter.equalsIgnoreCase("Di Proses") && (statusBatch.equalsIgnoreCase("Di Proses") || statusBatch.equalsIgnoreCase("Di proses"))) {
+            else if (filter.equalsIgnoreCase("Gagal") && statusBatch.equalsIgnoreCase("Gagal")) {
+                isMatch = true;
+            }
+            else if (filter.equalsIgnoreCase("Dibuang") && statusBatch.equalsIgnoreCase("Dibuang")) {
                 isMatch = true;
             }
 
@@ -168,19 +206,22 @@ public class DashboardAdminController {
                     Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                     
                     if (value != null) {
-                        String status = value.toString().trim();
+                        String status = value.toString().trim().toLowerCase();
                         
                         if (isSelected) {
                             c.setForeground(table.getSelectionForeground());
+                            c.setBackground(table.getSelectionBackground());
                         } else {
-                            if (status.equalsIgnoreCase("Selesai")) {
-                                c.setForeground(new Color(0, 153, 0)); // Hijau
-                            } else if (status.equalsIgnoreCase("Di Proses")) {
-                                c.setForeground(new Color(204, 153, 0)); // Kuning/Oranye gelap agar kontras
-                            } else if (status.equalsIgnoreCase("Gagal")) {
-                                c.setForeground(new Color(204, 0, 0)); // Merah
+                            c.setBackground(Color.WHITE);
+                            
+                            if (status.equals("selesai")) {
+                                c.setForeground(new Color(0, 153, 0)); 
+                            } else if (status.equals("di proses") || status.equals("diproses")) {
+                                c.setForeground(new Color(204, 153, 0)); 
+                            } else if (status.equals("gagal") || status.equals("dibuang")) {
+                                c.setForeground(new Color(204, 0, 0)); 
                             } else {
-                                c.setForeground(table.getForeground());
+                                c.setForeground(Color.BLACK);
                             }
                         }
                     }

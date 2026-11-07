@@ -14,7 +14,7 @@ public class DashboardAdminDao {
         this.connection = DatabaseConnection.getConnection();
     }
 
-    // 1. Statistik Bahan Baku secara Real-Time
+    // 1. Statistik Bahan Baku
     public Map<String, Integer> getStatistikBahanBaku() {
         Map<String, Integer> stats = new HashMap<>();
         int total = 0, tersedia = 0, minimum = 0, nonaktif = 0;
@@ -23,7 +23,6 @@ public class DashboardAdminDao {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             
-            // Mendapatkan daftar nama kolom dari database secara otomatis
             java.sql.ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
             
@@ -31,7 +30,6 @@ public class DashboardAdminDao {
             String colStok = "";
             String colMin = "";
 
-            // Deteksi otomatis nama kolom yang mirip di database Anda
             for (int i = 1; i <= columnCount; i++) {
                 String colName = metaData.getColumnName(i).toLowerCase();
                 if (colName.contains("status")) {
@@ -44,7 +42,7 @@ public class DashboardAdminDao {
             }
 
             while (rs.next()) {
-                total++; // Menghitung total seluruh baris data bahan baku secara akurat (menjadi 15)
+                total++;
                 
                 String status = "tersedia";
                 if (!colStatus.isEmpty()) {
@@ -61,7 +59,6 @@ public class DashboardAdminDao {
                     try { min = rs.getDouble(colMin); } catch (Exception e) {}
                 }
 
-                // Evaluasi status dan stok minimum
                 if (status != null && (status.equalsIgnoreCase("aktif") || status.equalsIgnoreCase("tersedia"))) {
                     if (min > 0 && stok <= min) {
                         minimum++;
@@ -76,7 +73,6 @@ public class DashboardAdminDao {
             e.printStackTrace();
         }
         
-        // Jika karena suatu hal status tidak terbaca tapi total ada, masukkan ke tersedia agar tidak 0
         if (tersedia == 0 && minimum == 0 && nonaktif == 0 && total > 0) {
             tersedia = total;
         }
@@ -88,7 +84,7 @@ public class DashboardAdminDao {
         return stats;
     }
 
-    // 2. Statistik Produk secara Real-Time
+    // 2. Statistik Produk
     public Map<String, Integer> getStatistikProduk() {
         Map<String, Integer> stats = new HashMap<>();
         int total = 0, aktif = 0, nonaktif = 0;
@@ -114,7 +110,7 @@ public class DashboardAdminDao {
         return stats;
     }
 
-    // 3. Statistik Produksi Batch secara Real-Time
+    // 3. Statistik Produksi Batch
     public Map<String, Integer> getStatistikBatch() {
         Map<String, Integer> stats = new HashMap<>();
         int total = 0, selesai = 0, gagal = 0;
@@ -140,7 +136,7 @@ public class DashboardAdminDao {
         return stats;
     }
 
-    // 4. Statistik Distribusi secara Real-Time
+    // 4. Statistik Distribusi 
     public Map<String, Integer> getStatistikDistribusi() {
         Map<String, Integer> stats = new HashMap<>();
         int total = 0, selesai = 0, proses = 0;
@@ -169,7 +165,6 @@ public class DashboardAdminDao {
     // 5. Data untuk Tabel "Batch Terbaru"
     public List<Object[]> getBatchTerbaru() {
         List<Object[]> list = new ArrayList<>();
-        // Menghapus LIMIT 10 agar semua data (termasuk id_batch 27 & 29) ikut termuat
         String query = "SELECT p.nama_produk, pb.id_batch, pb.jumlah_produksi, pb.tanggal_kadaluarsa, pb.status_batch " +
                        "FROM produksi_batch pb " +
                        "JOIN produk p ON pb.id_produk = p.id_produk " +

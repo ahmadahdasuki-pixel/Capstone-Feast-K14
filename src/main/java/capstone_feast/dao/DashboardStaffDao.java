@@ -14,7 +14,7 @@ public class DashboardStaffDao {
         this.connection = DatabaseConnection.getConnection();
     }
 
-    // 1. Statistik Bahan Baku secara Real-Time dengan Auto-Detect Kolom
+    // 1. Statistik Bahan Baku 
     public Map<String, Integer> getStatistikBahanBaku() {
         Map<String, Integer> stats = new HashMap<>();
         int total = 0, tersedia = 0, minimum = 0, nonaktif = 0;
@@ -83,7 +83,7 @@ public class DashboardStaffDao {
         return stats;
     }
 
-    // 2. Statistik Produk secara Real-Time
+    // 2. Statistik Produk
     public Map<String, Integer> getStatistikProduk() {
         Map<String, Integer> stats = new HashMap<>();
         int total = 0, aktif = 0, nonaktif = 0;
@@ -112,7 +112,7 @@ public class DashboardStaffDao {
         return stats;
     }
 
-    // 3. Statistik Produksi Batch secara Real-Time
+    // 3. Statistik Produksi Batch
     public Map<String, Integer> getStatistikBatch() {
         Map<String, Integer> stats = new HashMap<>();
         int total = 0, selesai = 0, gagal = 0;
@@ -141,7 +141,7 @@ public class DashboardStaffDao {
         return stats;
     }
 
-    // 4. Statistik Distribusi secara Real-Time
+    // 4. Statistik Distribusi
     public Map<String, Integer> getStatistikDistribusi() {
         Map<String, Integer> stats = new HashMap<>();
         int total = 0, selesai = 0, proses = 0;

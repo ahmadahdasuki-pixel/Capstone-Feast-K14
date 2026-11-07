@@ -13,7 +13,6 @@ public class AdminDao {
         this.connection = DatabaseConnection.getConnection();
     }
 
-    // Contoh method untuk mengambil total bahan baku untuk ditampilkan di Dashboard Admin
     public int getTotalBahanBaku() {
         int total = 0;
         String query = "SELECT COUNT(*) AS total FROM bahan_baku";
@@ -29,5 +28,4 @@ public class AdminDao {
         return total;
     }
 
-    // Anda dapat menambahkan method DAO lainnya di sini sesuai kebutuhan modul Admin (Produk, Resep, Distributor, dll)
 }

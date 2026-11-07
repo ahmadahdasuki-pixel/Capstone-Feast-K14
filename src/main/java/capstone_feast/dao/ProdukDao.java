@@ -36,7 +36,7 @@ public class ProdukDao {
         return list;
     }
 
-    // Method untuk mengecek duplikasi berdasarkan nama produk
+    // mengecek duplikasi berdasarkan nama produk
     public Produk getProdukByNama(String namaProduk) {
         String query = "SELECT * FROM produk WHERE LOWER(nama_produk) = LOWER(?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -103,7 +103,7 @@ public class ProdukDao {
         }
     }
 
-    // Method untuk mengaktifkan kembali produk yang berstatus Nonaktif
+    // mengaktifkan kembali produk yang berstatus Nonaktif
     public boolean aktifkanProduk(int idProduk) {
         String query = "UPDATE produk SET status_produk = 'Aktif' WHERE id_produk = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {

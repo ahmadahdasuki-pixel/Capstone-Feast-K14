@@ -29,7 +29,7 @@ public class ResepDao {
         }
     }
 
-    // 1. Mengambil seluruh daftar produk untuk ComboBox di form Resep
+    // 1. Mengambil seluruh daftar produk  
     public List<Produk> getAllProdukForCombo() {
         List<Produk> list = new ArrayList<>();
         String query = "SELECT id_produk, id_admin, nama_produk, satuan_produk, harga_jual, status_produk FROM produk";
@@ -87,7 +87,7 @@ public class ResepDao {
         return list;
     }
 
-    // 3. Mengambil daftar seluruh bahan baku untuk ComboBox dialog "Tambah Resep"
+    // 3. Mengambil daftar seluruh bahan baku 
     public List<BahanItem> getListBahanItem() {
         List<BahanItem> list = new ArrayList<>();
         String query = "SELECT id_bahan, nama_bahan, satuan FROM bahan_baku";

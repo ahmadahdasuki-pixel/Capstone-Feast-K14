@@ -13,10 +13,8 @@ public class AdminController {
         this.frame = frame;
         this.dao = new DashboardAdminDao();
         
-        // Load data tabel saat pertama kali dibuka
         loadTabelBatch("Semua");
         
-        // Tangani event ketika pilihan ComboBox "Pilih Status" diubah
         if (frame.getCmbStatus() != null) {
             for (java.awt.event.ActionListener al : frame.getCmbStatus().getActionListeners()) {
                 frame.getCmbStatus().removeActionListener(al);
@@ -31,7 +29,7 @@ public class AdminController {
 
     public void loadTabelBatch(String statusFilter) {
         DefaultTableModel model = (DefaultTableModel) frame.getTabelBatchTerbaru().getModel();
-        model.setRowCount(0); // Kosongkan baris agar tidak duplikat
+        model.setRowCount(0);
 
         List<Object[]> dataBatch = dao.getBatchTerbaru();
 

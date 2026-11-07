@@ -27,7 +27,7 @@ public class DistribusiController {
 
         frame.getBtnRefresh().addActionListener(e -> {
             if (frame.getCmbFilterStatus() != null) {
-                frame.getCmbFilterStatus().setSelectedIndex(0); // Reset filter ke "Semua"
+                frame.getCmbFilterStatus().setSelectedIndex(0); 
             }
             loadAllData();
         });
@@ -139,16 +139,16 @@ public class DistribusiController {
                         String status = statusObj.toString().trim().toLowerCase();
                         
                         if (status.contains("selesai")) {
-                            c.setBackground(new Color(220, 255, 220)); // Hijau Muda
+                            c.setBackground(new Color(220, 255, 220)); 
                             c.setForeground(new Color(0, 100, 0));
                         } else if (status.contains("batal")) {
-                            c.setBackground(new Color(255, 220, 220)); // Merah Muda
+                            c.setBackground(new Color(255, 220, 220)); 
                             c.setForeground(new Color(139, 0, 0));
                         } else if (status.contains("proses")) {
-                            c.setBackground(new Color(255, 255, 200)); // Kuning Muda
+                            c.setBackground(new Color(255, 255, 200)); 
                             c.setForeground(new Color(150, 100, 0));
                         } else if (status.contains("kirim")) {
-                            c.setBackground(new Color(220, 240, 255)); // Biru Muda
+                            c.setBackground(new Color(220, 240, 255)); 
                             c.setForeground(new Color(0, 0, 139));
                         } else {
                             c.setBackground(Color.WHITE);

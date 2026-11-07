@@ -38,7 +38,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="0" y="-7" width="190" height="580"/>
+          <AbsoluteConstraints x="0" y="-7" width="200" height="580"/>
         </Constraint>
       </Constraints>
 
@@ -223,7 +223,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Ahmad Ahdasuki\Documents\SEMESTER 3\CAPSTONE\Capstone-Part-2\src\main\resources\images\Feast.png"/>
+              <Image iconType="2" name="C:\Users\Ahmad Ahdasuki\Documents\SEMESTER 3\CAPSTONE\Capstone-Part-2\src\main\resources\images\11.png"/>
             </Property>
           </Properties>
         </Component>

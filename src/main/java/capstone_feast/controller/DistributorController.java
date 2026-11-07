@@ -42,16 +42,12 @@ public class DistributorController {
         );
         
         if (confirm == JOptionPane.YES_OPTION) {
-            // 1. Membuka kembali halaman Login
             new Login().setVisible(true);
-            
-            // 2. Menutup form / jendela menu yang sedang aktif
             frame.dispose();
         }
     });
 }
 
-        // Event klik baris pada tabel untuk Auto-Fill form
         if (frame.getTabelDistributor() != null) {
             frame.getTabelDistributor().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -145,10 +141,9 @@ public class DistributorController {
 
         int selectedRow = frame.getTabelDistributor().getSelectedRow();
         if (selectedRow != -1) {
-            Object statusObj = frame.getTabelDistributor().getValueAt(selectedRow, 4); // Kolom status di indeks ke-4
+            Object statusObj = frame.getTabelDistributor().getValueAt(selectedRow, 4); 
             String statusDistributor = statusObj != null ? statusObj.toString() : "";
 
-            // Jika status nonaktif, tawarkan opsi aktivasi kembali
             if (statusDistributor.equalsIgnoreCase("Nonaktif") || statusDistributor.equalsIgnoreCase("tidak aktif")) {
                 int confirmAktif = JOptionPane.showConfirmDialog(
                     frame, 

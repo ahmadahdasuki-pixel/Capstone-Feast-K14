@@ -19,18 +19,17 @@ public class Distributor extends javax.swing.JFrame {
         initComponents();
         new capstone_feast.controller.DistributorController(this);
         javax.swing.table.TableColumnModel cm = TabelDistributor.getColumnModel();
-        cm.getColumn(0).setPreferredWidth(60);   // ID
-        cm.getColumn(1).setPreferredWidth(160);  // Nama
-        cm.getColumn(2).setPreferredWidth(180);  // Alamat
-        cm.getColumn(3).setPreferredWidth(110);  // Telepon
-        cm.getColumn(4).setPreferredWidth(90);   // Status
+        cm.getColumn(0).setPreferredWidth(60);  
+        cm.getColumn(1).setPreferredWidth(160);  
+        cm.getColumn(2).setPreferredWidth(180); 
+        cm.getColumn(3).setPreferredWidth(110); 
+        cm.getColumn(4).setPreferredWidth(90);  
 
         TabelDistributor.setRowHeight(24);
 
         setLocationRelativeTo(null);        
     }
     
-    // Getter wajib untuk diakses oleh BahanBakuController
     public javax.swing.JTextField getNamaDistributorField() {
         return NamaDistributor; 
     }
@@ -146,7 +145,7 @@ public class Distributor extends javax.swing.JFrame {
         btnLogout.addActionListener(this::btnLogoutActionPerformed);
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Documents\\SEMESTER 3\\CAPSTONE\\Capstone-Part-2\\src\\main\\resources\\images\\Feast.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Documents\\SEMESTER 3\\CAPSTONE\\Capstone-Part-2\\src\\main\\resources\\images\\11.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -162,7 +161,7 @@ public class Distributor extends javax.swing.JFrame {
                     .addComponent(btnProduk, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnResep, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDistributor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnKelolaAkun, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE))
+                    .addComponent(btnKelolaAkun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

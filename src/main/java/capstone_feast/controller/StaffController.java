@@ -59,16 +59,12 @@ public class StaffController {
         );
         
         if (confirm == JOptionPane.YES_OPTION) {
-            // 1. Membuka kembali halaman Login
             new Login().setVisible(true);
-            
-            // 2. Menutup form / jendela menu yang sedang aktif
             frame.dispose();
         }
     });
 }
 
-        // Event Klik Tabel untuk Mendapatkan ID Baris yang Dipilih
         if (frame.getTabelStaff() != null) {
             frame.getTabelStaff().addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -116,12 +112,9 @@ public class StaffController {
         return true;
     }
 
-    // Bagian utama yang ditanyakan: Membuka form Register di atas KelolaAkunStaff
     private void tambahStaff() {
-        // Membuka form Register di atas KelolaAkunStaff
         capstone_feast.view.Register formRegister = new capstone_feast.view.Register();
         
-        // KUNCI UTAMA: Agar latar belakang tetap stabil di KelolaAkunStaff
         formRegister.setLocationRelativeTo(frame); 
         formRegister.setVisible(true);
     }

@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JOptionPane;
 import capstone_feast.controller.AdminController;
+import java.util.HashSet;
+import java.util.Set;
 /**
  *
  * @author Ahmad Ahdasuki
@@ -33,6 +35,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
     LihatStatus.addItem("Selesai");
     LihatStatus.addItem("Gagal");
     LihatStatus.addItem("Di proses");
+    LihatStatus.addItem("Dibuang");
 }
 
 public javax.swing.JComboBox<String> getCmbStatus() {
@@ -77,8 +80,12 @@ public javax.swing.JComboBox<String> getCmbStatus() {
     }
     
     public JLabel getLblSelamatDatang() { 
-        return AdminLogin; // 
+        return SelamatDatangAdmin; // 
     }
+    
+    public javax.swing.JLabel getLabelSelamatDatang() {
+    return SelamatDatangAdmin;
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -99,7 +106,8 @@ public javax.swing.JComboBox<String> getCmbStatus() {
         btnResep = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         navbar = new javax.swing.JPanel();
-        AdminLogin = new javax.swing.JLabel();
+        SelamatDatangAdmin = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         PanelUtama = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         TotalBahanBaku = new javax.swing.JLabel();
@@ -186,17 +194,21 @@ public javax.swing.JComboBox<String> getCmbStatus() {
         Sidebar.add(btnResep, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 180, 40));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Documents\\SEMESTER 3\\CAPSTONE\\Capstone-Part-2\\src\\main\\resources\\images\\Feast.png")); // NOI18N
-        jLabel2.setText("jLabel2");
-        Sidebar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 160, 80));
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Documents\\SEMESTER 3\\CAPSTONE\\Capstone-Part-2\\src\\main\\resources\\images\\11.png")); // NOI18N
+        Sidebar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 190, 90));
 
         getContentPane().add(Sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, -6, 210, 570));
 
         navbar.setBackground(new java.awt.Color(153, 51, 0));
 
-        AdminLogin.setFont(new java.awt.Font("Sitka Text", 3, 18)); // NOI18N
-        AdminLogin.setForeground(new java.awt.Color(255, 255, 255));
-        AdminLogin.setText("Selamat Datang Admin  ");
+        SelamatDatangAdmin.setFont(new java.awt.Font("Sitka Text", 1, 18)); // NOI18N
+        SelamatDatangAdmin.setForeground(new java.awt.Color(255, 255, 255));
+        SelamatDatangAdmin.setText("Selamat Datang Admin  ");
+
+        jLabel9.setFont(new java.awt.Font("Baskerville Old Face", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("DASHBOARD ADMIN");
 
         javax.swing.GroupLayout navbarLayout = new javax.swing.GroupLayout(navbar);
         navbar.setLayout(navbarLayout);
@@ -204,14 +216,18 @@ public javax.swing.JComboBox<String> getCmbStatus() {
             navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navbarLayout.createSequentialGroup()
                 .addGap(212, 212, 212)
-                .addComponent(AdminLogin)
-                .addContainerGap(679, Short.MAX_VALUE))
+                .addComponent(SelamatDatangAdmin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 463, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addGap(24, 24, 24))
         );
         navbarLayout.setVerticalGroup(
             navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(navbarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(AdminLogin)
+                .addGroup(navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9)
+                    .addComponent(SelamatDatangAdmin))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -516,8 +532,7 @@ public javax.swing.JComboBox<String> getCmbStatus() {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
         );
 
         getContentPane().add(PanelUtama, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 890, 520));
@@ -526,13 +541,11 @@ public javax.swing.JComboBox<String> getCmbStatus() {
     }// </editor-fold>//GEN-END:initComponents
     
     private void btnKelolaAkunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelolaAkunActionPerformed
-        new capstone_feast.view.KelolaAkunStaff().setVisible(true);
-        this.dispose();
+        
     }//GEN-LAST:event_btnKelolaAkunActionPerformed
 
     private void btnResepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResepActionPerformed
-        new capstone_feast.view.Resep().setVisible(true); 
-        this.dispose();
+
     }//GEN-LAST:event_btnResepActionPerformed
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
@@ -550,18 +563,15 @@ public javax.swing.JComboBox<String> getCmbStatus() {
     }//GEN-LAST:event_LogoutActionPerformed
 
     private void btnBahanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBahanActionPerformed
-    new capstone_feast.view.BahanBaku().setVisible(true); 
-    this.dispose();
+
     }//GEN-LAST:event_btnBahanActionPerformed
 
     private void btnProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdukActionPerformed
-        new capstone_feast.view.Produk().setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_btnProdukActionPerformed
 
     private void btnDistributorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDistributorActionPerformed
-        new capstone_feast.view.Distributor().setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_btnDistributorActionPerformed
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
@@ -603,7 +613,6 @@ public javax.swing.JComboBox<String> getCmbStatus() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel AdminLogin;
     private javax.swing.JLabel AngkaBahan;
     private javax.swing.JLabel InfoBahan;
     private javax.swing.JLabel InfoBatch;
@@ -619,6 +628,7 @@ public javax.swing.JComboBox<String> getCmbStatus() {
     private javax.swing.JComboBox<String> LihatStatus;
     private javax.swing.JButton Logout;
     private javax.swing.JPanel PanelUtama;
+    private javax.swing.JLabel SelamatDatangAdmin;
     private javax.swing.JPanel Sidebar;
     private javax.swing.JTable TabelBatchBaru;
     private javax.swing.JLabel TotalBahanBaku;
@@ -634,6 +644,7 @@ public javax.swing.JComboBox<String> getCmbStatus() {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

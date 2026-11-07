@@ -64,7 +64,7 @@ public class ProduksiDao {
         public void setStatusBahan(String statusBahan) { this.statusBahan = statusBahan; }
     }
 
-    // 1. Mengambil daftar produk yang aktif saja untuk JComboBox Produksi
+    // 1. Mengambil daftar produk yang aktif 
     public List<ProdukItem> getListProdukItem() {
         List<ProdukItem> list = new ArrayList<>();
         String query = "SELECT id_produk, nama_produk, status_produk FROM produk WHERE status_produk = 'Aktif' ORDER BY nama_produk ASC";
@@ -86,7 +86,7 @@ public class ProduksiDao {
         return list;
     }
 
-    // 2. Mengambil daftar bahan baku berdasarkan resep produk (Hanya mengambil bahan yang berstatus 'Aktif')
+    // 2. Mengambil daftar bahan baku berdasarkan resep produk 
     public List<BahanBakuModel> getBahanBakuByProduk(int idProduk) {
         List<BahanBakuModel> list = new ArrayList<>();
         
@@ -115,7 +115,7 @@ public class ProduksiDao {
         return list;
     }
 
-    // 3. Menyimpan data produksi baru, otomatis mengurangi stok bahan baku berdasarkan resep & transaksi aman
+    // 3. Menyimpan data produksi baru
     public boolean insertProduksi(int idProduk, int idStaff, String tglProduksi, String tglKadaluarsa, int jumlahProduksi) {
         String queryInsertBatch = "INSERT INTO produksi_batch (id_produk, id_staff, tanggal_produksi, tanggal_kadaluarsa, jumlah_produksi, sisa_stok_batch, status_batch) VALUES (?, ?, ?, ?, ?, ?, 'Di Proses')";
         String queryGetResep = "SELECT dr.id_bahan, dr.jumlah_bahan FROM detail_resep dr JOIN bahan_baku b ON dr.id_bahan = b.id_bahan WHERE dr.id_produk = ? AND b.status_bahan_baku = 'Aktif'";
@@ -123,7 +123,6 @@ public class ProduksiDao {
         
         try (Connection conn = DatabaseConnection.getConnection()) {
             conn.setAutoCommit(false); 
-            // A. Ambil resep bahan baku berdasarkan produk yang aktif
             try (PreparedStatement psResep = conn.prepareStatement(queryGetResep)) {
                 psResep.setInt(1, idProduk);
                 try (ResultSet rsResep = psResep.executeQuery()) {
@@ -134,7 +133,6 @@ public class ProduksiDao {
                         double jumlahPerUnit = rsResep.getDouble("jumlah_bahan");
                         double totalDibutuhkan = jumlahPerUnit * jumlahProduksi;
                         
-                        // B. Kurangi stok bahan baku di tabel bahan_baku secara real-time
                         try (PreparedStatement psUpdateStok = conn.prepareStatement(queryUpdateStok)) {
                             psUpdateStok.setDouble(1, totalDibutuhkan);
                             psUpdateStok.setInt(2, idBahan);
@@ -149,14 +147,13 @@ public class ProduksiDao {
                 }
             }
             
-            // C. Simpan data batch produksi baru
             try (PreparedStatement psBatch = conn.prepareStatement(queryInsertBatch)) {
                 psBatch.setInt(1, idProduk);
                 psBatch.setInt(2, idStaff);
                 psBatch.setString(3, tglProduksi);
                 psBatch.setString(4, tglKadaluarsa);
                 psBatch.setInt(5, jumlahProduksi);
-                psBatch.setInt(6, jumlahProduksi); // sisa_stok_batch awal sama dengan jumlah produksi
+                psBatch.setInt(6, jumlahProduksi); 
                 psBatch.executeUpdate();
             }
             
@@ -187,7 +184,7 @@ public class ProduksiDao {
         }
     }
 
-    // 5. Mengambil seluruh data produksi atau berdasarkan status dengan pengurutan FEFO (ORDER BY tanggal_kadaluarsa ASC)
+    // 5. Mengambil seluruh data produksi atau berdasarkan status dengan pengurutan FEFO
     public List<ProduksiModel> getDataByStatusSortedByFEFO(String status) {
         List<ProduksiModel> list = new ArrayList<>();
         String query;
@@ -244,7 +241,6 @@ public class ProduksiDao {
         return list;
     }
 
-    // 6. Alias method agar sinkron jika di controller memanggil getAllProduksi()
     public List<ProduksiModel> getAllProduksi() {
         return getDataByStatusSortedByFEFO("Semua");
     }

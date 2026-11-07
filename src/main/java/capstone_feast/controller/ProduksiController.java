@@ -24,8 +24,10 @@ public class ProduksiController {
         this.dao = new ProduksiDao();
         initController();
         loadComboBoxProduk(); 
-        loadTableProduksi();  
+        initFilterStatusBatch(); 
+        loadTableProduksi("Semua");  
         setupCekKebutuhanTableRenderer(); 
+        setupTabelBatchRenderer(); 
     }
 
     private void initController() {
@@ -75,6 +77,25 @@ public class ProduksiController {
 
         if (frame.getBtnIsiHasilProduksi() != null) {
             frame.getBtnIsiHasilProduksi().addActionListener(e -> prosesUbahStatusProduksi());
+        }
+    }
+
+    private void initFilterStatusBatch() {
+        JComboBox<String> cmb = frame.getCmbFilterStatusBatch();
+        if (cmb != null) {
+            cmb.removeAllItems();
+            cmb.addItem("Semua");
+            cmb.addItem("Selesai");
+            cmb.addItem("Di Proses");
+            cmb.addItem("Gagal");
+            cmb.addItem("Dibuang");
+
+            cmb.addActionListener(e -> {
+                String selectedStatus = (String) cmb.getSelectedItem();
+                if (selectedStatus != null) {
+                    loadTableProduksi(selectedStatus);
+                }
+            });
         }
     }
 
@@ -179,13 +200,11 @@ public class ProduksiController {
         String tglProduksiInput = frame.getTxtTanggalProduksi().getText().trim();
         String tglKadaluarsaInput = frame.getTxtTanggalKadaluarsa().getText().trim();
 
-        // 1. Validasi Kosong
         if (jumlahStr.isEmpty() || tglProduksiInput.isEmpty() || tglKadaluarsaInput.isEmpty()) {
             JOptionPane.showMessageDialog(frame, "Semua kolom wajib diisi!", "Peringatan", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        // 2. Validasi Jumlah Produksi (Harus Angka & > 0)
         int jumlah;
         try {
             jumlah = Integer.parseInt(jumlahStr);
@@ -198,7 +217,6 @@ public class ProduksiController {
             return;
         }
 
-        // --- 3. VALIDASI MUTLAK: CEK KETERSEDIAAN STOK BAHAN BAKU ---
         List<ProduksiDao.BahanBakuModel> listBahan = dao.getBahanBakuByProduk(idProduk);
         
         if (listBahan.isEmpty()) {
@@ -219,15 +237,14 @@ public class ProduksiController {
             if (bahan.getStokSaatIni() < totalDibutuhkan) {
                 stokCukup = false;
                 bahanKurangMsg.append("- ")
-                              .append(bahan.getNamaBahan())
-                              .append(" (Dibutuhkan: ").append(totalDibutuhkan)
-                              .append(" ").append(bahan.getSatuan())
-                              .append(", Stok Tersedia: ").append(bahan.getStokSaatIni())
-                              .append(" ").append(bahan.getSatuan()).append(")\n");
+                            .append(bahan.getNamaBahan())
+                            .append(" (Dibutuhkan: ").append(totalDibutuhkan)
+                            .append(" ").append(bahan.getSatuan())
+                            .append(", Stok Tersedia: ").append(bahan.getStokSaatIni())
+                            .append(" ").append(bahan.getSatuan()).append(")\n");
             }
         }
 
-        // Jika ada bahan yang kurang, BLOKIR TOTAL proses produksi
         if (!stokCukup) {
             JOptionPane.showMessageDialog(
                 frame, 
@@ -239,9 +256,7 @@ public class ProduksiController {
             );
             return; 
         }
-        // -----------------------------------------------------------
 
-        // 4. Validasi Format & Perbandingan Tanggal
         String tglProduksi;
         String tglKadaluarsa;
 
@@ -275,10 +290,9 @@ public class ProduksiController {
 
             if (sukses) {
                 JOptionPane.showMessageDialog(frame, "Sukses: Batch produksi dimulai dengan status 'Di Proses'!");
-                loadTableProduksi();
+                loadTableProduksi("Semua");
                 resetForm();
             } else {
-                // Output pesan deskriptif yang diperbaiki
                 JOptionPane.showMessageDialog(
                     frame, 
                     "Gagal Memulai Produksi!\n\n" +
@@ -302,11 +316,31 @@ public class ProduksiController {
             return;
         }
 
-        Object[] pilihanStatus = {"Selesai", "Gagal"};
+        int selectedRow = frame.getTabelDaftarBatch().getSelectedRow();
+        String statusSaatIni = "";
+        if (selectedRow != -1) {
+            Object valStatus = frame.getTabelDaftarBatch().getValueAt(selectedRow, 5);
+            if (valStatus != null) {
+                statusSaatIni = valStatus.toString().trim();
+            }
+        }
+
+        if (!statusSaatIni.equalsIgnoreCase("Di Proses") && !statusSaatIni.equalsIgnoreCase("Diproses")) {
+            JOptionPane.showMessageDialog(
+                frame, 
+                "Batch dengan ID: BAT-00" + selectedIdBatch + " memiliki status \"" + statusSaatIni + "\".\n" +
+                "Batch yang sudah berstatus final (Selesai, Gagal, atau Dibuang) tidak dapat diubah kembali!\n" +
+                "Perubahan status hanya diperbolehkan untuk batch yang berstatus 'Di Proses'.", 
+                "Status Sudah Final", 
+                JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        Object[] pilihanStatus = {"Selesai", "Gagal", "Dibuang"};
         String statusPilihan = (String) JOptionPane.showInputDialog(
             frame, 
-            "Pilih hasil status produksi untuk Batch ID: BAT-00" + selectedIdBatch, 
-            "Ubah Status Produksi", 
+            "Pilih hasil status produksi untuk Batch ID: BAT-00" + selectedIdBatch, "Ubah Status Produksi", 
             JOptionPane.QUESTION_MESSAGE, 
             null, 
             pilihanStatus, 
@@ -317,32 +351,85 @@ public class ProduksiController {
             boolean sukses = dao.updateStatusProduksi(selectedIdBatch, statusPilihan);
             if (sukses) {
                 JOptionPane.showMessageDialog(frame, "Status produksi berhasil diubah menjadi '" + statusPilihan + "'!");
-                loadTableProduksi(); 
+                String currentFilter = (String) frame.getCmbFilterStatusBatch().getSelectedItem();
+                loadTableProduksi(currentFilter != null ? currentFilter : "Semua"); 
                 selectedIdBatch = -1; 
             } else {
                 JOptionPane.showMessageDialog(
                     frame, 
-                    "Gagal memperbarui status produksi ke database. Pastikan koneksi atau data batch valid.", 
-                    "Error Database", 
+                    "Gagal memperbarui status produksi ke database. Pastikan koneksi atau data batch valid.", "Error Database", 
                     JOptionPane.ERROR_MESSAGE
                 );
             }
         }
     }
 
-    private void loadTableProduksi() {
+    private void loadTableProduksi(String statusFilter) {
         List<ProduksiModel> list = dao.getAllProduksi();
         DefaultTableModel model = (DefaultTableModel) frame.getTabelDaftarBatch().getModel();
         model.setRowCount(0);
 
         for (ProduksiModel p : list) {
-            model.addRow(new Object[]{
-                "BAT-00" + p.getIdBatch(),
-                p.getNamaProduk(),
-                p.getJumlahProduksi(),
-                p.getTanggalProduksi(),
-                p.getTanggalKadaluarsa(),
-                p.getStatusBatch() 
+            String statusBatch = p.getStatusBatch() != null ? p.getStatusBatch().trim() : "";
+            
+            boolean isMatch = false;
+            if (statusFilter == null || statusFilter.equalsIgnoreCase("Semua")) {
+                isMatch = true;
+            } else if (statusFilter.equalsIgnoreCase("Selesai") && statusBatch.equalsIgnoreCase("Selesai")) {
+                isMatch = true;
+            } else if (statusFilter.equalsIgnoreCase("Di Proses") && (statusBatch.equalsIgnoreCase("Di Proses") || statusBatch.equalsIgnoreCase("Di proses"))) {
+                isMatch = true;
+            } else if (statusFilter.equalsIgnoreCase("Gagal") && statusBatch.equalsIgnoreCase("Gagal")) {
+                isMatch = true;
+            } else if (statusFilter.equalsIgnoreCase("Dibuang") && statusBatch.equalsIgnoreCase("Dibuang")) {
+                isMatch = true;
+            }
+
+            if (isMatch) {
+                model.addRow(new Object[]{
+                    "BAT-00" + p.getIdBatch(),
+                    p.getNamaProduk(),
+                    p.getJumlahProduksi(),
+                    p.getTanggalProduksi(),
+                    p.getTanggalKadaluarsa(),
+                    p.getStatusBatch() 
+                });
+            }
+        }
+    }
+
+    private void setupTabelBatchRenderer() {
+        JTable table = frame.getTabelDaftarBatch();
+        if (table != null && table.getColumnCount() > 5) {
+            table.getColumnModel().getColumn(5).setCellRenderer(new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value, 
+                        boolean isSelected, boolean hasFocus, int row, int column) {
+                    
+                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                    
+                    if (value != null) {
+                        String status = value.toString().trim().toLowerCase();
+                        
+                        if (isSelected) {
+                            c.setForeground(table.getSelectionForeground());
+                            c.setBackground(table.getSelectionBackground());
+                        } else {
+                            c.setBackground(Color.WHITE);
+                            
+                            if (status.equals("selesai")) {
+                                c.setForeground(new Color(0, 153, 0));
+                            } else if (status.equals("di proses") || status.equals("diproses")) {
+                                c.setForeground(new Color(204, 153, 0));
+                            } else if (status.equals("gagal") || status.equals("dibuang")) {
+                                c.setForeground(new Color(204, 0, 0));
+                            } else {
+                                c.setForeground(Color.BLACK);
+                            }
+                        }
+                    }
+                    return c;
+                }
             });
         }
     }

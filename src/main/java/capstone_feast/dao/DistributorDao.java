@@ -15,7 +15,6 @@ public class DistributorDao {
 
     public List<Distributor> getAllDistributor() {
         List<Distributor> list = new ArrayList<>();
-        // Sesuai dengan kolom tabel database Anda[cite: 12]
         String query = "SELECT * FROM distributor ORDER BY id_distributor ASC";
 
         try (Statement stmt = connection.createStatement();
@@ -26,8 +25,8 @@ public class DistributorDao {
                     rs.getInt("id_admin"),
                     rs.getString("nama_distributor"),
                     rs.getString("alamat"),
-                    rs.getString("nomor_telepon_distributor"), // Kolom sesuai database[cite: 12]
-                    rs.getString("status_distributor")         // Kolom sesuai database[cite: 12]
+                    rs.getString("nomor_telepon_distributor"), 
+                    rs.getString("status_distributor")       
                 );
                 list.add(d);
             }
@@ -91,7 +90,7 @@ public class DistributorDao {
         }
     }
 
-    // Soft delete (mengubah status menjadi Nonaktif)
+    // delete (mengubah status menjadi Nonaktif)
     public boolean delete(int idDistributor) {
         String query = "UPDATE distributor SET status_distributor = 'Nonaktif' WHERE id_distributor = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {

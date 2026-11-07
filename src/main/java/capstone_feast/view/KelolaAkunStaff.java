@@ -346,7 +346,8 @@ public class KelolaAkunStaff extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDistributorActionPerformed
 
     private void btnKelolaAkunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKelolaAkunActionPerformed
-
+        new capstone_feast.view.KelolaAkunStaff().setVisible(true); 
+        this.dispose();
     }//GEN-LAST:event_btnKelolaAkunActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -358,8 +359,7 @@ public class KelolaAkunStaff extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnTambahAkunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahAkunActionPerformed
-        new capstone_feast.view.Register().setVisible(true);
-        this.dispose();
+
     }//GEN-LAST:event_btnTambahAkunActionPerformed
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed

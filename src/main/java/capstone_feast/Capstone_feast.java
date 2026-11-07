@@ -7,22 +7,12 @@ import javax.swing.UIManager;
 public class Capstone_feast {
 
     public static void main(String[] args) {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Gagal mengatur Look and Feel: " + e.getMessage());
-        }
+        com.formdev.flatlaf.FlatLightLaf.setup();
+        UIManager.put("Button.arc", 12);
+        UIManager.put("Component.arc", 12);
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Login().setVisible(true);
-            }
+        SwingUtilities.invokeLater(() -> {
+            new Login().setVisible(true);
         });
     }
 }

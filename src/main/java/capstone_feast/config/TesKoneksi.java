@@ -6,7 +6,6 @@ public class TesKoneksi {
     public static void main(String[] args) {
         System.out.println("Mencoba menghubungkan ke database...");
         
-        // Memanggil method getConnection dari class DatabaseConnection
         Connection conn = DatabaseConnection.getConnection();
         
         if (conn != null) {

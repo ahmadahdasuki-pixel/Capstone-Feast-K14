@@ -14,7 +14,7 @@ public class DistribusiDao {
         this.connection = DatabaseConnection.getConnection();
     }
 
-    // 1. Ambil list Batch Produksi yang masih ada stok (>0) untuk ComboBox Produk
+    // 1. Ambil list Batch Produksi yang masih ada stok 
     public List<ComboItem> getListBatchAktif() {
         List<ComboItem> list = new ArrayList<>();
         String query = "SELECT pb.id_batch, p.nama_produk, pb.sisa_stok_batch " +
@@ -36,7 +36,7 @@ public class DistribusiDao {
         return list;
     }
 
-    // 2. Ambil list Distributor yang aktif untuk ComboBox Distributor
+    // 2. Ambil list Distributor yang aktif
     public List<ComboItem> getListDistributor() {
         List<ComboItem> list = new ArrayList<>();
         String query = "SELECT id_distributor, nama_distributor FROM distributor WHERE status_distributor = 'aktif' ORDER BY nama_distributor ASC";
@@ -51,7 +51,7 @@ public class DistribusiDao {
         return list;
     }
 
-    // 3. Ambil sisa stok spesifik dari sebuah batch
+    // 3. Ambil sisa stok  dari sebuah batch
     public int getSisaStokBatch(int idBatch) {
         String query = "SELECT sisa_stok_batch FROM produksi_batch WHERE id_batch = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
@@ -67,14 +67,13 @@ public class DistribusiDao {
         return 0;
     }
 
-    // 4. Proses Simpan Distribusi (Menyimpan Nama Produk & Jumlah secara rapi di kolom keterangan)
+    // 4. Proses Simpan Distribusi 
     public boolean simpanDistribusi(int idBatch, int idDistributor, int jumlah, String tglKirim) {
         if (tglKirim != null && tglKirim.matches("\\d{2}-\\d{2}-\\d{4}")) {
             String[] parts = tglKirim.split("-");
             tglKirim = parts[2] + "-" + parts[1] + "-" + parts[0];
         }
 
-        // Ambil Nama Produk asli berdasarkan idBatch terlebih dahulu
         String namaProdukAsli = "Produk Distribusi";
         String qProduk = "SELECT p.nama_produk FROM produksi_batch pb JOIN produk p ON pb.id_produk = p.id_produk WHERE pb.id_batch = ?";
         try (PreparedStatement psP = connection.prepareStatement(qProduk)) {
@@ -88,7 +87,6 @@ public class DistribusiDao {
             e.printStackTrace();
         }
 
-        // Format keterangan rapi yang menyimpan: Nama Produk | Jumlah | Batch ID
         String keteranganVal = "[PRODUK:" + namaProdukAsli + "] [JML:" + jumlah + "] (Batch ID: " + idBatch + ")";
         
         String queryInsert = "INSERT INTO distribusi (id_distributor, id_staff, tanggal_distribusi, status_distribusi, keterangan) VALUES (?, 4, ?, 'diproses', ?)";
@@ -123,16 +121,14 @@ public class DistribusiDao {
         }
     }
 
-    // 5. Ambil semua riwayat distribusi dengan parsing cerdas nama produk & jumlah (Alias untuk getAllRiwayat)
+    // 5. Ambil semua riwayat distribusi )
     public List<DistribusiModel> getAllRiwayat() {
         return getRiwayatByStatusAndSort("Semua", "DESC");
     }
 
-    // 5b. BARU: Ambil riwayat distribusi dengan dukungan Filter Status dan Sortir Tanggal Pengiriman (ASC / DESC)
     public List<DistribusiModel> getRiwayatByStatusAndSort(String statusFilter, String sortOrder) {
         List<DistribusiModel> list = new ArrayList<>();
         
-        // 1. Ambil daftar master produk yang ada di database secara dinamis
         List<String> masterProduk = new ArrayList<>();
         String qMaster = "SELECT nama_produk FROM produk ORDER BY id_produk ASC";
         try (Statement stmtM = connection.createStatement();
@@ -148,7 +144,6 @@ public class DistribusiDao {
             masterProduk.add("Produk Roti Umum");
         }
 
-        // 2. Susun query dinamis berdasarkan filter status dan sortir tanggal
         StringBuilder query = new StringBuilder(
             "SELECT d.id_distribusi, d.tanggal_distribusi, dist.nama_distributor, d.status_distribusi, d.keterangan " +
             "FROM distribusi d " +
@@ -160,7 +155,6 @@ public class DistribusiDao {
             query.append("WHERE REPLACE(LOWER(d.status_distribusi), ' ', '') = REPLACE(LOWER(?), ' ', '') ");
         }
 
-        // Tentukan arah sortir tanggal pengiriman (ASC = terlama ke terbaru, DESC = terbaru ke terlama)
         String sorting = ("ASC".equalsIgnoreCase(sortOrder)) ? "ASC" : "DESC";
         query.append("ORDER BY d.tanggal_distribusi ").append(sorting).append(", d.id_distribusi DESC");
 
@@ -214,7 +208,6 @@ public class DistribusiDao {
                                     }
                                 }
                             } catch (Exception e) {
-                                // Abaikan, gunakan mapping database
                             }
                         }
                     }

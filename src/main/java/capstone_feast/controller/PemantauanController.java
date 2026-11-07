@@ -108,7 +108,6 @@ public class PemantauanController {
         for (PemantauanModel p : currentBatchList) {
             String statusWaktu = "Aman";
             
-            // Jika di database sudah berstatus Dibuang, pertahankan statusnya
             if (p.getStatusBatch() != null && p.getStatusBatch().startsWith("Dibuang")) {
                 statusWaktu = p.getStatusBatch();
             } else {
@@ -175,11 +174,9 @@ public class PemantauanController {
             return;
         }
 
-        // ALUR BARU: Meminta input alasan pembuangan stok sebelum konfirmasi
         String alasan = JOptionPane.showInputDialog(frame, "Masukkan alasan pembuangan stok batch ini:", "Alasan Pembuangan Stok", JOptionPane.QUESTION_MESSAGE);
 
         if (alasan == null) {
-            // User menekan tombol Cancel
             return;
         }
 

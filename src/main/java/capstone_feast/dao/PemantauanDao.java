@@ -26,7 +26,6 @@ public class PemantauanDao {
                 double stok = rs.getDouble("stok_saat_ini");
                 double min = rs.getDouble("stok_minimum");
                 
-                // Tentukan status berdasarkan logika minimum
                 String status = (stok <= min) ? "Minimum" : "Cukup";
 
                 list.add(new PemantauanModel(nama, satuan, stok, min, status));
@@ -63,8 +62,7 @@ public class PemantauanDao {
     }
 
     public boolean buangStokBatch(int idBatch, String alasan) {
-    // Batasi string alasan maksimal 15 karakter jika kolom database kecil
-    if (alasan != null && alasan.length() > 15) { // Tambahkan tanda kurung () setelah length
+    if (alasan != null && alasan.length() > 15) {
         alasan = alasan.substring(0, 15);
     }
     
