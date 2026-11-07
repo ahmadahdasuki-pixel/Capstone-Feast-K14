@@ -194,8 +194,8 @@ public javax.swing.JComboBox<String> getCmbStatus() {
         Sidebar.add(btnResep, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 180, 40));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Documents\\SEMESTER 3\\CAPSTONE\\Capstone-Part-2\\src\\main\\resources\\images\\11.png")); // NOI18N
-        Sidebar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 190, 90));
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Ahmad Ahdasuki\\Capstone-Part-2\\src\\main\\resources\\images\\10.png")); // NOI18N
+        Sidebar.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 190, 90));
 
         getContentPane().add(Sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, -6, 210, 570));
 
