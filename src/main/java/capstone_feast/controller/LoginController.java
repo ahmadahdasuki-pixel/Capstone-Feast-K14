@@ -42,6 +42,19 @@ public class LoginController {
         Pengguna user = loginDao.login(username, password);
 
         if (user != null) {
+            // Validasi Cek Apakah Status Akun Nonaktif
+            String statusAkun = user.getStatusAkun(); 
+            if (statusAkun != null && statusAkun.equalsIgnoreCase("Nonaktif")) {
+                JOptionPane.showMessageDialog(
+                    frame, 
+                    "Login Gagal! Akun Anda berstatus NONAKTIF. Silakan hubungi Administrator.", 
+                    "Akses Ditolak", 
+                    JOptionPane.ERROR_MESSAGE
+                );
+                return; 
+            }
+
+
             String role = user.getRole(); 
             
             String namaUser = user.getNamaPengguna(); 
@@ -60,7 +73,7 @@ public class LoginController {
             }
 
         } else {
-            JOptionPane.showMessageDialog(frame, "Login Gagal! Periksa kembali username, password, atau status akun Anda.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Login Gagal! Periksa kembali username atau password Anda.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

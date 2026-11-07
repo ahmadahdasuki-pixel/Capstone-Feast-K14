@@ -29,11 +29,13 @@ public class LoginDao {
                     int id = resultSet.getInt(1); 
                     String namaPengguna = resultSet.getString("nama_pengguna");
                     String dbUsername = resultSet.getString("username");
+                    
+                    String statusAkun = resultSet.getString("status_akun"); 
 
                     if (dbUsername.toLowerCase().contains("admin")) {
-                        pengguna = new Admin(id, namaPengguna, dbUsername, "aktif", null, null);
+                        pengguna = new Admin(id, namaPengguna, dbUsername, statusAkun, null, null);
                     } else {
-                        pengguna = new Staff(id, namaPengguna, dbUsername, "aktif", null, "Reguler");
+                        pengguna = new Staff(id, namaPengguna, dbUsername, statusAkun, null, "Reguler");
                     }
                 }
             }

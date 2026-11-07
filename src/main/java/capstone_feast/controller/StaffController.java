@@ -50,20 +50,20 @@ public class StaffController {
         }
         
         if (frame.getBtnLogout() != null) {
-    frame.getBtnLogout().addActionListener(e -> {
-        int confirm = JOptionPane.showConfirmDialog(
-            frame, 
-            "Yakin Ingin Keluar?", 
-            "Konfirmasi Logout", 
-            JOptionPane.YES_NO_OPTION
-        );
-        
-        if (confirm == JOptionPane.YES_OPTION) {
-            new Login().setVisible(true);
-            frame.dispose();
+            frame.getBtnLogout().addActionListener(e -> {
+                int confirm = JOptionPane.showConfirmDialog(
+                    frame, 
+                    "Yakin Ingin Keluar?", 
+                    "Konfirmasi Logout", 
+                    JOptionPane.YES_NO_OPTION
+                );
+                
+                if (confirm == JOptionPane.YES_OPTION) {
+                    new Login().setVisible(true);
+                    frame.dispose();
+                }
+            });
         }
-    });
-}
 
         if (frame.getTabelStaff() != null) {
             frame.getTabelStaff().addMouseListener(new java.awt.event.MouseAdapter() {
@@ -72,7 +72,17 @@ public class StaffController {
                     int row = frame.getTabelStaff().getSelectedRow();
                     if (row != -1) {
                         try {
-                            selectedIdStaff = Integer.parseInt(frame.getTabelStaff().getValueAt(row, 0).toString());
+                            // Karena kolom ID mungkin disembunyikan atau berada di baris data objek, 
+                            // kita ambil ID dari database berdasarkan baris yang diklik atau pastikan indeksnya benar.
+                            // Jika list dao di-load urut, kita bisa ambil berdasarkan list atau jika ID disimpan di kolom tersembunyi.
+                            // Mari kita amankan pengambilan ID berdasarkan data staff di list DAO atau pencarian list:
+                            String usernameSelected = frame.getTabelStaff().getValueAt(row, 1).toString(); // Kolom 1 adalah Username
+                            Staff st = dao.getStaffList("").stream()
+                                          .filter(s -> s.getUsername().equals(usernameSelected))
+                                          .findFirst().orElse(null);
+                            if (st != null) {
+                                selectedIdStaff = st.getId();
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -89,12 +99,12 @@ public class StaffController {
 
         for (Staff s : list) {
             model.addRow(new Object[]{
-                s.getId(),           // ID Staff (Kolom 0)
-                s.getNamaPengguna(), // Nama Staff (Kolom 1)
-                s.getUsername(),     // Username (Kolom 2)
-                s.getStatusAkun(),   // Status Akun (Kolom 3)
-                s.getNomorTelepon(), // No Telepon (Kolom 4)
-                s.getShift()         // Shift Kerja (Kolom 5)
+                s.getNamaPengguna(), // Kolom 0: Nama Staff
+                s.getUsername(),     // Kolom 1: Username
+                s.getPassword(),     // Kolom 2: Password (Ditampilkan agar admin bisa melihat)
+                s.getStatusAkun(),   // Kolom 3: Status Akun
+                s.getNomorTelepon(), // Kolom 4: No Telepon
+                s.getShift()         // Kolom 5: Shift Kerja
             });
         }
     }
@@ -114,7 +124,6 @@ public class StaffController {
 
     private void tambahStaff() {
         capstone_feast.view.Register formRegister = new capstone_feast.view.Register();
-        
         formRegister.setLocationRelativeTo(frame); 
         formRegister.setVisible(true);
     }
@@ -126,7 +135,7 @@ public class StaffController {
         }
 
         int selectedRow = frame.getTabelStaff().getSelectedRow();
-        String statusAkun = frame.getTabelStaff().getValueAt(selectedRow, 3).toString();
+        String statusAkun = frame.getTabelStaff().getValueAt(selectedRow, 3).toString(); // Kolom status akun di index 3
 
         if (statusAkun.equalsIgnoreCase("Nonaktif")) {
             int confirm = JOptionPane.showConfirmDialog(
